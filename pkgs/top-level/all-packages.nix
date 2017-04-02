@@ -395,6 +395,8 @@ with pkgs;
 
   aj-snapshot  = callPackage ../applications/audio/aj-snapshot { };
 
+  alacritty = callPackage ../applications/misc/alacritty { };
+
   albert = libsForQt5.callPackage ../applications/misc/albert {};
 
   amazon-glacier-cmd-interface = callPackage ../tools/backup/amazon-glacier-cmd-interface { };
