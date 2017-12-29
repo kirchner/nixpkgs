@@ -1,0 +1,137 @@
+From a4ab48efba1fa6b23a505636f43f45bdaef24a30 Mon Sep 17 00:00:00 2001
+From: Fabian Kirchner <kirchner@posteo.de>
+Date: Fri, 29 Dec 2017 11:56:50 +0100
+Subject: [PATCH] foo
+
+---
+ src/app/tape/mapplication.cpp                | 7 +++++--
+ src/app/valentina/dialogs/dialogsavelayout.h | 6 +-----
+ src/app/valentina/mainwindowsnogui.cpp       | 6 +-----
+ src/libs/vmisc/vabstractapplication.cpp      | 7 +++++--
+ src/libs/vmisc/vcommonsettings.cpp           | 5 ++++-
+ 5 files changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/src/app/tape/mapplication.cpp b/src/app/tape/mapplication.cpp
+index f815969f6..5967111e5 100644
+--- a/src/app/tape/mapplication.cpp
++++ b/src/app/tape/mapplication.cpp
+@@ -62,6 +62,9 @@ QT_WARNING_POP
+ 
+ #include <QCommandLineParser>
+ 
++#define _STR(x) #x
++#define STR(X)  _STR(x)
++
+ //---------------------------------------------------------------------------------------------------------------------
+ inline void noisyFailureMsgHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+ {
+@@ -498,7 +501,7 @@ QString MApplication::diagramsPath() const
+         }
+         else
+         {
+-            return QStringLiteral("/usr/share/valentina") + dPath;
++            return QStringLiteral(STR(NIXPKGS_SHARE) "/valentina") + dPath;
+         }
+     }
+ #else // Unix
+@@ -509,7 +512,7 @@ QString MApplication::diagramsPath() const
+     }
+     else
+     {
+-        return QStringLiteral("/usr/share/valentina") + dPath;
++        return QStringLiteral(STR(NIXPKGS_SHARE) "/valentina") + dPath;
+     }
+ #endif
+ }
+diff --git a/src/app/valentina/dialogs/dialogsavelayout.h b/src/app/valentina/dialogs/dialogsavelayout.h
+index 003537706..b221270b9 100644
+--- a/src/app/valentina/dialogs/dialogsavelayout.h
++++ b/src/app/valentina/dialogs/dialogsavelayout.h
+@@ -34,11 +34,7 @@
+ #include "../vgeometry/vgeometrydef.h"
+ #include "vabstractlayoutdialog.h"
+ 
+-#ifdef Q_OS_WIN
+-#   define PDFTOPS "pdftops.exe"
+-#else
+-#   define PDFTOPS "pdftops"
+-#endif
++#define PDFTOPS NIXPKG_PDFTOPS
+ 
+ namespace Ui
+ {
+diff --git a/src/app/valentina/mainwindowsnogui.cpp b/src/app/valentina/mainwindowsnogui.cpp
+index e10453ffe..02e0e8335 100644
+--- a/src/app/valentina/mainwindowsnogui.cpp
++++ b/src/app/valentina/mainwindowsnogui.cpp
+@@ -55,11 +55,7 @@
+ #include <QPrintDialog>
+ #include <QPrinterInfo>
+ 
+-#ifdef Q_OS_WIN
+-#   define PDFTOPS "pdftops.exe"
+-#else
+-#   define PDFTOPS "pdftops"
+-#endif
++#define PDFTOPS NIXPKG_PDFTOPS
+ 
+ namespace
+ {
+diff --git a/src/libs/vmisc/vabstractapplication.cpp b/src/libs/vmisc/vabstractapplication.cpp
+index 0321cf8fd..dc4903f2c 100644
+--- a/src/libs/vmisc/vabstractapplication.cpp
++++ b/src/libs/vmisc/vabstractapplication.cpp
+@@ -41,6 +41,9 @@
+ #include "../vmisc/def.h"
+ #include "../vmisc/logging.h"
+ 
++#define _STR(x) #x
++#define STR(X)  _STR(x)
++
+ //---------------------------------------------------------------------------------------------------------------------
+ VAbstractApplication::VAbstractApplication(int &argc, char **argv)
+     :QApplication(argc, argv),
+@@ -160,7 +163,7 @@ QString VAbstractApplication::translationsPath(const QString &locale) const
+         }
+         else
+         {
+-            return QStringLiteral("/usr/share/valentina/translations");
++            return QStringLiteral(STR(NIXPKGS_SHARE) "/valentina/translations");
+         }
+     }
+ #else // Unix
+@@ -172,7 +175,7 @@ QString VAbstractApplication::translationsPath(const QString &locale) const
+     }
+     else
+     {
+-        return QStringLiteral("/usr/share/valentina/translations");
++        return QStringLiteral(STR(NIXPKGS_SHARE) "/valentina/translations");
+     }
+ #endif
+ }
+diff --git a/src/libs/vmisc/vcommonsettings.cpp b/src/libs/vmisc/vcommonsettings.cpp
+index f8b9f959a..981cefbef 100644
+--- a/src/libs/vmisc/vcommonsettings.cpp
++++ b/src/libs/vmisc/vcommonsettings.cpp
+@@ -45,6 +45,9 @@
+ #include "../vmisc/vmath.h"
+ #include "../vpatterndb/pmsystems.h"
+ 
++#define _STR(x) #x
++#define STR(X)  _STR(x)
++
+ namespace
+ {
+ const QString settingPathsIndividualMeasurements = QStringLiteral("paths/individual_measurements");
+@@ -105,7 +108,7 @@ QStringList ClearFormats(const QStringList &predefinedFormats, QStringList forma
+ static const QString commonIniFilename = QStringLiteral("common");
+ 
+ #if !defined(Q_OS_WIN)
+-const QString VCommonSettings::unixStandardSharePath = QStringLiteral("/usr/share/valentina");
++const QString VCommonSettings::unixStandardSharePath = QStringLiteral(STR(NIXPKGS_SHARE) "/valentina");
+ #endif
+ 
+ namespace
+-- 
+2.12.2
+

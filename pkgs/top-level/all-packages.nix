@@ -12037,6 +12037,10 @@ with pkgs;
 
   oracleXE = callPackage ../servers/sql/oracle-xe { };
 
+  seamly2d = libsForQt5.callPackage ../applications/misc/seamly2d {
+    #qtxmlpatterns = qt5.qtxmlpatterns;
+  };
+
   softether_4_18 = callPackage ../servers/softether/4.18.nix { };
   softether_4_20 = callPackage ../servers/softether/4.20.nix { };
   softether = softether_4_20;
